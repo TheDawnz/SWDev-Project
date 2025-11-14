@@ -1,0 +1,34 @@
+API server added implementing registration, login, bookings, and admin endpoints.
+
+Quick start:
+
+- Install dependencies:
+
+```powershell
+cd "c:\SW Dev\project"
+npm install
+```
+
+- Start server (ensure MongoDB running at `mongodb://127.0.0.1:27017/swdev` or set `MONGO_URI`):
+
+```powershell
+npm run dev
+```
+
+Endpoints:
+- `POST /api/auth/register` {name, telephone, email, password}
+- `POST /api/auth/login` {email, password} -> returns JWT
+- `POST /api/auth/logout`
+- `GET /api/companies` -> list companies
+- `POST /api/companies/seed` -> seed companies (body: { companies: [...] })
+- `POST /api/bookings` (auth) {date, companies}
+- `GET /api/bookings` (auth)
+- `PUT /api/bookings/:id` (auth, owner)
+- `DELETE /api/bookings/:id` (auth, owner)
+- `GET /api/admin/bookings` (auth, admin)
+- `PUT /api/admin/bookings/:id` (auth, admin)
+- `DELETE /api/admin/bookings/:id` (auth, admin)
+
+Notes:
+- Booking dates are restricted to May 10-13, 2022 inclusive per requirements.
+- Users can create up to 3 bookings.
