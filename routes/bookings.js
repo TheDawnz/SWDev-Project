@@ -1,11 +1,17 @@
 const express = require('express');
-const router = express.Router();
-const { protect } = require('../middleware/auth');
-const bookingsController = require('../controllers/bookingsController');
+const { createBooking, getMyBookings, getAllBookings, updateBooking, deleteBooking } = require('../controllers/bookings');
+const { protect, authorize } = require('../middleware/auth');
 
-router.post('/', protect, bookingsController.createBooking);
-router.get('/', protect, bookingsController.getUserBookings);
-router.put('/:id', protect, bookingsController.updateBooking);
-router.delete('/:id', protect, bookingsController.deleteBooking);
+const router = express.Router();
+
+router.use(protect);
+
+router.post('/', createBooking);
+router.get('/me', getMyBookings);
+
+// Admin endpoints
+router.get('/', authorize('admin'), getAllBookings);
+router.put('/:id', updateBooking); // will check ownership/admin in controller
+router.delete('/:id', deleteBooking); // will check ownership/admin in controller
 
 module.exports = router;
