@@ -58,16 +58,12 @@ app.use(cors());
 //Cookie parser
 app.use(cookieParser());
 
-const hospitals = require('./routes/hospitals');
 const auth = require('./routes/auth');
-const appointments = require('./routes/appointments');
 // added routes for the interview booking feature
 const companies = require('./routes/companies');
 const bookings = require('./routes/bookings');
 
-app.use('/api/v1/hospitals', hospitals);
 app.use('/api/v1/auth',auth);
-app.use('/api/v1/appointments', appointments);
 // mount new routes
 app.use('/api/v1/companies', companies);
 app.use('/api/v1/bookings', bookings);

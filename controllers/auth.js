@@ -11,10 +11,16 @@ const sendToken = (user, statusCode, res) => {
 // @route   POST /api/v1/auth/register
 // @access  Public
 exports.register = async (req, res) => {
+	console.log(req.body);
 	const { name, tel, email, password } = req.body;
 	if (!name || !tel || !email || !password) return res.status(400).json({ success:false, message:'Missing fields' });
-	const existing = await User.findOne({ email });
-	if (existing) return res.status(400).json({ success:false, message:'Email already in use' });
+	const existing = await User.findOne({ $or: [{ email }, { tel }] });
+	if (existing) {
+		if (existing.email === email) return res.status(400).json({ success:false, message:'Email already in use' });
+		if (existing.tel === tel) return res.status(400).json({ success:false, message:'Telephone already in use' });
+		// fallback
+		return res.status(400).json({ success:false, message:'User already exists' });
+	}
 	const user = await User.create({ name, tel, email, password });
 	sendToken(user, 201, res);
 };
