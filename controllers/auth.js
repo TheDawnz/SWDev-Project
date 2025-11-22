@@ -46,8 +46,10 @@ exports.logout = (req, res) => {
 };
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.ethereal.email',
-  port: 587,
+	service: "Gmail",
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user:process.env.MY_EMAIL,
     pass:process.env.MY_PASSWORD
